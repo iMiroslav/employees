@@ -27,9 +27,14 @@ const genderOptions = [
   },
 ];
 
-const AddEmployee = () => {
-  const navigate = useNavigate();
+// TODO: this should be refactored
+interface IProps {
+  onMockSubmit?: () => void;
+}
 
+const AddEmployee = (props: IProps) => {
+  const navigate = useNavigate();
+  const { onMockSubmit } = props;
   const schema = yup
     .object({
       name: yup.string().required(),
@@ -45,7 +50,8 @@ const AddEmployee = () => {
     control,
     formState: { errors },
   } = useForm({
-    reValidateMode: "onBlur",
+    mode: "onChange",
+    reValidateMode: "onChange",
     resolver: yupResolver(schema),
   });
   const addEmployee = useEmployeeStore((state) => state.addEmployee);
@@ -55,6 +61,7 @@ const AddEmployee = () => {
       (option) => option.value === data.gender
     );
     data.gender = genderOption?.label;
+    console.log(data);
     addEmployee(data);
     navigate("/dashboard");
   };
@@ -156,7 +163,9 @@ const AddEmployee = () => {
       <CardActions>
         <Button onClick={handleClose}>Home</Button>
         <Button onClick={() => reset()}>Reset</Button>
-        <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+        <Button onClick={handleSubmit(onMockSubmit ? onMockSubmit : onSubmit)}>
+          Submit
+        </Button>
       </CardActions>
     </Card>
   );

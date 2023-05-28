@@ -119,7 +119,7 @@ const EmployeesTable = () => {
           <Skeleton animation={false} />
         </Box>
       ) : (
-        <Table size="small">
+        <Table size="small" role="contentinfo">
           <TableHead>
             <TableRow>
               <TableCell key="name">
@@ -164,10 +164,12 @@ const EmployeesTable = () => {
           <TableBody>
             {sortedEmployees.map((employee) => (
               <StyledTableRow key={employee.name}>
-                <TableCell>{employee.name}</TableCell>
-                <TableCell>{employee.jobTitle}</TableCell>
-                <TableCell align="right">{employee.tenure}</TableCell>
-                <TableCell>{employee.gender}</TableCell>
+                <TableCell role="table-content">{employee.name}</TableCell>
+                <TableCell role="table-content">{employee.jobTitle}</TableCell>
+                <TableCell align="right" role="table-content">
+                  {employee.tenure}
+                </TableCell>
+                <TableCell role="table-content">{employee.gender}</TableCell>
                 <TableCell align="right">
                   <Link
                     component="button"
